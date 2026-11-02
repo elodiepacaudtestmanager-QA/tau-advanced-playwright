@@ -30,3 +30,16 @@ async function doLogin(page: Page, user:string, password: string) {
     await page.waitForURL(baseURL+uiPages.login);
     await loginPage.checkLoggedIn();
 }
+
+const authFile = '.auth/userAPI.json';
+
+setup('authenticate as user via API', async ({ request }) => {
+    // send authentification request to the API
+    await request.post('https://demoqa.com/Account/v1/GenerateToken', {
+        form: {
+            userName: process.env.USERNAME_USER!,
+            password: process.env.PASSWORD!
+        }
+    });
+    await request.storageState({ path: authFile });
+});
