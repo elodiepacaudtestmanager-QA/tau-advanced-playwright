@@ -4,5 +4,6 @@ export default {
     home: '/',
     login: '/login',
     profile: '/profile',
+    forms: '/automation-practice-form',
   };
   
