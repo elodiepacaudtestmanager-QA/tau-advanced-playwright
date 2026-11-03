@@ -4,10 +4,11 @@ import BookPage from '../ui/pages/book-page';
 import LoginPage from '../ui/pages/login-page';
 import ProfilePage from '../ui/pages/profile-page';
 import FormsPage from '../ui/pages/forms-page';
+import BookStorePage from '../ui/pages/bookStore-page';
 
 async function beforeEach(
   page: Page,
-  PageObjectParam: LoginPage|BookPage|ProfilePage|FormsPage,
+  PageObjectParam: LoginPage|BookPage|ProfilePage|FormsPage|BookStorePage,
   targetPage: string,
   params?: Record<any, any>
 ) {
