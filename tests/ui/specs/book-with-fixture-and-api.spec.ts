@@ -7,6 +7,7 @@ import userData from '../../data/user-data';
 test.describe.configure({ mode: 'serial' });
 
 let apiContext: APIRequestContext;
+
 const env = process.env.ENV!;
 const password = process.env.PASSWORD!;
 const userId = process.env.USERID!;
@@ -32,11 +33,20 @@ test.describe('Books - Fixture & API', () => {
         await cleanBooks(userId, page);
         await bookPage.goto(userData.books.new);
     });
+    test('Delete one book from collection', async ({ page, bookPage }) => {
+        await cleanBooks(userId, page);
+        await bookPage.goto(userData.books.new);
+        await deleteBookFromCollection(userId, userData.books.new, page);
+    });
 });
 
 async function cleanBooks(userId: string, page: Page) {
     await deleteBookAPIRequest.deleteAllBooksByUser(apiContext, userId);
     // await page.reload();
+};
+
+async function deleteBookFromCollection(userId: string, isbn: string, page: Page) {
+    await deleteBookAPIRequest.deleteBookAPIByIsbn(apiContext, userId, isbn);
 };
 
 /**

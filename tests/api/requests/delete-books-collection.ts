@@ -9,13 +9,15 @@ async function deleteAllBooksByUser(apiContext: APIRequestContext, userId: strin
   const requestOptions = {};
   const requestUrl = buildUrl(endpoints.books.delete, userId);
   const response = await executeRequest(apiContext, requestUrl, method, requestOptions);
+  return response;
 }
 
 async function deleteBookAPIByIsbn(apiContext: APIRequestContext, userId: string, isbn: string) {
   const method = methods.delete;
   const requestOptions = { data: { isbn: isbn, userId: userId }};
-  const requestUrl = buildUrl(endpoints.books.delete);
+  const requestUrl = buildUrl(endpoints.books.deleteOne);
   const response = await executeRequest(apiContext, requestUrl, method, requestOptions);
+  return response;
 }
 
 export default { deleteAllBooksByUser, deleteBookAPIByIsbn };

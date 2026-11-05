@@ -9,6 +9,7 @@ async function addBookToCollection(apiContext: APIRequestContext, userId: string
   const requestOptions = { data: { userId: userId, collectionOfIsbns: [ {isbn: isbn} ] }};
   const requestUrl = buildUrl(endpoints.books.post, userId, isbn);
   const response = await executeRequest(apiContext, requestUrl, method, requestOptions);
+  return response;
 }
 
 export default { addBookToCollection };

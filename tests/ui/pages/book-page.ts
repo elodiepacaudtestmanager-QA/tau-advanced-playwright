@@ -66,6 +66,7 @@ class BookPage {
         await dialog.accept();
     });
   }
+
 }
 
 export default BookPage;
