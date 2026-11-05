@@ -34,15 +34,28 @@ test.describe('Books - API Only', () => {
         // Clean up any existing books for the user
         const deleteAllResponse = await deleteBookAPIRequest.deleteAllBooksByUser(apiContext, userId);
         expect(deleteAllResponse.status()).toBe(204);
-        
+
         // Add a new book to the collection
-        const addResponse = await addBookAPIRequest.addBookToCollection(apiContext, userId, userData.books.new);
+        const bookToAdd = [userData.books.new];
+        const addResponse = await addBookAPIRequest.addBookToCollection(apiContext, userId, bookToAdd);
         expect(addResponse.status()).toBe(201);
 
         // Delete the book
         const deleteResponse = await deleteBookAPIRequest.deleteBookAPIByIsbn(apiContext, userId, userData.books.new);
         expect(deleteResponse.status()).toBe(204);
     });
+
+    test('Add several books', async () => { 
+        // Clean up any existing books for the user
+        const deleteAllResponse = await deleteBookAPIRequest.deleteAllBooksByUser(apiContext, userId);
+        expect(deleteAllResponse.status()).toBe(204);
+
+        // Add several books to the collection
+        const booksToAdd = [userData.books.new, userData.books.duplicate];
+        const addResponse = await addBookAPIRequest.addBookToCollection(apiContext, userId, booksToAdd);
+        expect(addResponse.status()).toBe(201);
+    });
+
 });
 
 
