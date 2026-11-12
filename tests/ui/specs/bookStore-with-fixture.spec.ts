@@ -2,7 +2,7 @@ import { test } from '../fixtures/bookStore-fixture';
 //import { APIRequestContext, Page } from '@playwright/test';
 //import baseAPIUrl from '../../utils/environmentBaseUrl';
 //import deleteBookAPIRequest from '../../api/requests/delete-books-collection';
-//import userData from '../../data/user-data';
+import books from '../../data/all-book-data';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -10,10 +10,11 @@ test.describe.configure({ mode: 'serial' });
 test.describe('BookStore search - Fixture', () => {
 
     test('Search for one book', async ({ page, bookStorePage }) => { //first thing that will happen is to call the fixture automatically. whenever the fixture has a "use" it goes back to the test and then go back to the fixture again when the test is done and execute any remaining commands
-        await bookStorePage.fillSearch('You Don\'t Know JS');
+        const bookTosearch = books.books[4].title;
+        await bookStorePage.fillSearch(bookTosearch);
         await bookStorePage.submitSearch();
         await bookStorePage.checkResultsCount(1);
-        await bookStorePage.checkBookTitle('You Don\'t Know JS');
+        await bookStorePage.checkBookTitle(bookTosearch);
     });
 
 
