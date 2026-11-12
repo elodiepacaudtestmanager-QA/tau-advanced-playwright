@@ -3,12 +3,27 @@ import baseAPIUrl from '../../utils/environmentBaseUrl';
 import deleteBookAPIRequest from '../../api/requests/delete-books-collection';
 import addBookAPIRequest from '../../api/requests/create-books-collection';
 import userData from '../../data/user-data';
+import fs from 'fs';
+import path from 'path';
+import {parse} from 'csv-parse/sync';
 
 let apiContext: APIRequestContext;
 const env = process.env.ENV!;
 const password = process.env.PASSWORD!;
 const userId = process.env.USERID!;
 const userName = process.env.USERNAME_API!;
+interface BookRecord {
+    book_numb: string;
+    title: string;
+    isbn: string;
+}
+const csvPath = path.join(__dirname, '../../data/booksToAdd.csv');
+const records = parse<BookRecord>(fs.readFileSync(csvPath, 'utf8'), {
+    columns: true,
+    skip_empty_lines: true,
+    trim: true,
+});
+const booksToAdd = records.map((record) => record.isbn);
 
 test.beforeAll(async ({ playwright }) => {
     
@@ -51,10 +66,13 @@ test.describe('Books - API Only', () => {
         expect(deleteAllResponse.status()).toBe(204);
 
         // Add several books to the collection
-        const booksToAdd = [userData.books.new, userData.books.duplicate];
+        //const booksToAdd = [userData.books.new, userData.books.duplicate];
         const addResponse = await addBookAPIRequest.addBookToCollection(apiContext, userId, booksToAdd);
         expect(addResponse.status()).toBe(201);
+        const addedBooks = await addResponse.json();
+        expect(addedBooks.books.map((book: { isbn: string }) => book.isbn)).toEqual(booksToAdd);
     });
+    
 
 });
 
